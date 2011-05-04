@@ -1,0 +1,142 @@
+About the PHP Plugin
+This plugin installs the Quercus PHP engine in Grails that allows you to run php in any Grails application. Quercus comes with JavaMail and the plugin includes the MySQL JDBC Driver.
+
+Installation and Configuration
+
+    Install with
+
+    grails install-plugin php
+
+    Optional configuration in Config.groovy
+        Sample
+
+        plugins{ 
+          php{ 
+            mappings = ['*.php','/blog/**'] 
+            initParameters = ['ini-file':'/WEB-INF/php.ini'] 
+            loadOnStartup = 1 
+          } 
+        } 
+
+        if plugins.php.mappings is not defined, '*.php' is used by default
+        refer to the the comment at the example Config.groovy, and Quercus' documentation
+
+Grails/Java-PHP integration
+
+    You could use JSP include to load PHP page from a JSP page under web-app
+        Remarks: You cannot include a .php from a .gsp yet, check GRAILS-3906
+    Java-PHP integration features provided by Quercus, refer to docs
+        In any php page, servlet request and session are available
+        In any php page, you could use any Java class
+
+Create your Wordpress blog in 15 mins
+You may create a weblog in 15 minutes with Rails or Grails, but no one will think your blog is professional! Spend the 15 mins to get your Wordpress instead. :-)
+
+pre-requisite
+
+    JDK, 1.6+ is recommended
+    Tested with Grails 1.1 beta 3
+    MySQL
+    Wordpress 2.6.5, do not use Wordpress 2.7
+        Wordpress 2.7 has some innovative new experimental feature, namely HTTP API, that is too powerful and not suitable for the Grails PHP Platform
+
+database configuration
+
+    a valid schema and user account are required. skip this section if you have prepared them already
+    login as root, run the following commands:
+
+    create database <databaseName> 
+    create user <username> identified by '<password>' 
+    grant all on <databaseName>.* to <username>;
+
+    for example:
+
+    create database wordpress; 
+    create user username identified by 'password'; 
+    grant all on wordpress.* to username;
+
+    Remarks: MySQL JDBC driver is bundled in the Grails PHP Plugin
+
+prepare Grails app
+
+    create a new Grails app, e.g.
+
+    grails create-app wordpress 
+    cd wordpress
+
+    install Grails PHP plugin
+
+    grails install-plugin php
+
+    start the Grails instance
+
+    grails run-app -Dserver.port=80
+
+deploy and install Wordpress
+
+    download supported version of wordpress
+    in the downloaded zip, extract all content under wordpress/* to web-app/*. (or in other structure as you wish)
+    (optional) I recommended to get rid of the context path, so your user could access at http://yourdomain.com/page rather than http://yourdomain.com/wordpress/page. to do so, put a web-jetty.xml under /web-app/WEB-INF/web-jetty.xml with the following content:
+
+    <?xml version="1.0"  encoding="ISO-8859-1"?> 
+    <!DOCTYPE Configure PUBLIC "-//Mort Bay Consulting//DTD Configure//EN" "http://jetty.mortbay.org/configure.dtd"> 
+    <Configure class="org.mortbay.jetty.webapp.WebAppContext"> 
+        <Set name="contextPath">/</Set> 
+        <Set name="war"> 
+            <SystemProperty name="jetty.home" default="."/>/webapps/yourAppName 
+        </Set> 
+        <Set name="VirtualHosts"> 
+            <Array type="java.lang.String"> 
+                <Item>yourdomain.com</Item> 
+                <Item>localhost</Item> 
+            </Array> 
+        </Set> 
+    </Configure> 
+
+    access the installer page at http://localhost:8080 or with your domain name,
+        click on "Create a Configuration File"
+        click on "Let's go"
+        at step 3, you need to enter the database connection info.
+
+        database name: wordpress 
+        User Name: wordpress 
+        Password: wordpress 
+        Database Host: localhost (default, or change to your db host) 
+        Table Prefix: wp_ (default) 
+        Then click on "submit" 
+
+        if your database information are entered correctly in the previous step, you should see "All right sparky! You've made it through this part of the installation. WordPress can now communicate with your database. If you are ready, time now toâ€¦", click on "Run the install" to proceed
+        Enter the name of your blog and your email address. You will get a acknowledgement email immediately. Click on "Install Wordpress" to proceed
+        Please highlight and copy the generated password. You recommended to login and change it immediately.
+            NOTICE: at the last step of installation, there is a button that link to the login page. You will see an 'socket timeout' error after clicked on it, but the installation is actually completed without problem. You could refresh the page to continue to login.
+            after logged in, go to user > your user name > new password to change password
+            enjoy blogging on a wordpress! ;-)
+
+version and compatiability
+
+    Tested with the following software version:
+        Grails 1.1 beta 2
+        Wordpress 2.6.5 (there are some serious socket timeout problem for WP 2.7.0)
+        On Windows
+
+Issues
+
+    I don't have idea on how to fix the perm link yet. You should need to edit ${userHome}/.grails/${grailsVersion}/projects/${projectName}/plugins/php-${phpPluginVersion}/PhpGrailsPlugin.groovy, and add sth like " 'url-pattern'('/*')" to map your perm-link URL to the PHP servlet.
+    at the last step in the installer, clicking on the login link will get to a socket timeout error page. there is no actual error in the installation. Problem has been reported to Quercus.
+    in the admin page, there are error in the plugin listing page. but plugins in zip could be installed without problem
+
+Other PHP applications
+
+    Vanilla forum - all tested functions work, except the following
+        upon logout, an exception is thrown. issue 3303
+    MediaWiki - installation is successful, but cannot access any page. probably caused by some kind of gzip compression problem
+        plugins.php.mappings = '/index.php/*' (+) // or more
+        "The page you are trying to view cannot be shown because it uses an invalid or unsupported form of compression."
+    Dokuwiki-rc2009-01-26 - completely broken, cannot access the first page at all. (if it's not clear, it's the Quercus PHP servlet doesn't support Dokuwiki, not Dokuwiki is broken)
+    Drupal 6.9 - looks good but fail to proceed in the Database configuration step during installation
+
+Author: Mingfai Ma
+
+
+Chagelog =================================
+Version 1.6     Upgrade to Quercus Quercus 4.0.11 Taioli Fabiano (Vista Tecnologie, www.vista.it)
