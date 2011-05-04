@@ -1,6 +1,6 @@
-<plugin name='php' version='0.1.5' grailsVersion='1.1 &gt; *'>
-  <author>Mingfai Ma</author>
-  <authorEmail>mingfai.ma@gmail.com</authorEmail>
+<plugin name='php' version='0.1.6' grailsVersion='1.1 &gt; *'>
+  <author>Mingfai Ma, Taioli Fabiano</author>
+  <authorEmail>mingfai.ma@gmail.com, ftaioli@vista.it</authorEmail>
   <title>Support PHP in your Grails application with the Quercus PHP engine</title>
   <description>\
 This plugin includes:
@@ -11,8 +11,8 @@ Tested with Grails 1.1
 </description>
   <documentation>http://grails.org/PHP+Plugin</documentation>
   <resources>
-    <resource>Config</resource>
     <resource>UrlMappings</resource>
   </resources>
   <dependencies />
+  <behavior />
 </plugin>
