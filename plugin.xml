@@ -1,0 +1,18 @@
+<plugin name='php' version='0.1.5' grailsVersion='1.1 &gt; *'>
+  <author>Mingfai Ma</author>
+  <authorEmail>mingfai.ma@gmail.com</authorEmail>
+  <title>Support PHP in your Grails application with the Quercus PHP engine</title>
+  <description>\
+This plugin includes:
+ - Quercus PHP Engine (http://quercus.caucho.com/) 3.2.1 - patched to avoid some error messages
+ - MySQL Connector (JDBC Driver) 3.1.14
+ - Servlet configurations
+Tested with Grails 1.1
+</description>
+  <documentation>http://grails.org/PHP+Plugin</documentation>
+  <resources>
+    <resource>Config</resource>
+    <resource>UrlMappings</resource>
+  </resources>
+  <dependencies />
+</plugin>
