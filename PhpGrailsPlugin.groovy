@@ -1,9 +1,9 @@
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 
 class PhpGrailsPlugin {
-    def version = '0.1.5',grailsVersion = "1.1 > *"
+    def version = '0.1.6-vista',grailsVersion = "1.1 > *"
     def dependsOn = [:], loadAfter = ['h2'],pluginExcludes = ["grails-app/views/error.gsp"]
-    def author = "Mingfai Ma", authorEmail = "mingfai.ma@gmail.com"
+    def author = "Mingfai Ma, Taioli Fabiano", authorEmail = "mingfai.ma@gmail.com, ftaioli@vista.it"
     def title = "Support PHP in your Grails application with the Quercus PHP engine"
     def description = '''\\
 This plugin includes:
