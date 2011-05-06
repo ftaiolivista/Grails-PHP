@@ -1,16 +1,17 @@
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 
 class PhpGrailsPlugin {
-    def version = '0.1.6',grailsVersion = "1.1 > *"
+    def version = '0.1.7',grailsVersion = "1.1 > *"
     def dependsOn = [:], loadAfter = ['h2'],pluginExcludes = ["grails-app/views/error.gsp"]
-    def author = "Mingfai Ma, Taioli Fabiano", authorEmail = "mingfai.ma@gmail.com, ftaioli@vista.it"
+    def author = "Taioli Fabiano, Mingfai Ma", authorEmail = "ftaioli@vista.it, mingfai.ma@gmail.com"
     def title = "Support PHP in your Grails application with the Quercus PHP engine"
     def description = '''\\
 This plugin includes:
- - Quercus PHP Engine (http://quercus.caucho.com/) 3.2.1 - patched to avoid some error messages
- - MySQL Connector (JDBC Driver) 3.1.14
+ - Use CleverCloud Querccus version  https://github.com/CleverCloud/Quercus
+ - MySQL Connector (JDBC Driver) 5.1.13
  - Servlet configurations
-Tested with Grails 1.1
+ - Tested with Grails 1.3.7
+ - to support UTF8 add unicode=true to init-params
 '''
 
     def documentation = "http://grails.org/PHP+Plugin"
@@ -25,10 +26,16 @@ Tested with Grails 1.1
           'servlet-class'('com.caucho.quercus.servlet.QuercusServlet')
           def initParams = config.'initParameters'.with{(it instanceof Map?it:it.flatten())}
           initParams.each{k,v-> 'init-param'{'param-name'(k);'param-value'(v)}}
-
+          
           if (!(config.'loadOnStartup' instanceof ConfigObject)){
             'load-on-startup'(config.'loadOnStartup')
           }
+//          'init-param'{'param-name'('unicode');'param-value'('true')} <--- this do the magic
+//          'init'{
+//              'php-ini'{
+//                        'unicode.semantics' 'on'
+//              }                    
+//          }
         }
       }
 
