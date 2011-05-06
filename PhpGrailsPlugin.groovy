@@ -1,8 +1,8 @@
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 
 class PhpGrailsPlugin {
-    def version = '0.1.7',grailsVersion = "1.1 > *"
-    def dependsOn = [:], loadAfter = ['h2'],pluginExcludes = ["grails-app/views/error.gsp"]
+    def version = '0.1.8',grailsVersion = "1.1 > *"
+    def dependsOn = [:], loadAfter = ['h2','controllers', 'services', 'hibernate'],pluginExcludes = ["grails-app/views/error.gsp"]
     def author = "Taioli Fabiano, Mingfai Ma", authorEmail = "ftaioli@vista.it, mingfai.ma@gmail.com"
     def title = "Support PHP in your Grails application with the Quercus PHP engine"
     def description = '''\\
@@ -13,6 +13,7 @@ This plugin includes:
  - Tested with Grails 1.3.7
  - to support UTF8 add unicode=true to init-params
 '''
+    
 
     def documentation = "http://grails.org/PHP+Plugin"
 
@@ -59,6 +60,7 @@ This plugin includes:
 
     def doWithSpring = {
         // TODO Implement runtime spring config (optional)
+        multipartResolver(org.grails.plugins.php.PHPMultipartResolver)
     }
 
     def doWithApplicationContext = { applicationContext ->
