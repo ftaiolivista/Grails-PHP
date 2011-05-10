@@ -139,5 +139,7 @@ Author: Mingfai Ma
 
 
 Chagelog =================================
+Version 0.1.9     Implementation of postgres jndi connection with pg_connect('java:...')
+Version 0.1.8     UTF8 fix (use init param unicode:true)
 Version 0.1.7     Moved to CleverCloud Quercus version that seem to corretly support UTF8 addin unicode:true as init-param
 Version 0.1.6     Upgrade to Quercus Quercus 4.0.11 Taioli Fabiano (Vista Tecnologie, www.vista.it)
